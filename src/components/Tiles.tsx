@@ -49,7 +49,7 @@ export const ComponentD = () => (
         position: absolute;
       `}
     >
-      {"component D ".repeat(100)}
+      {"component D ".repeat(400)}
     </div>
   </div>
 );
