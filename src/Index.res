@@ -1,33 +1,80 @@
 %raw("require('./tailwind.css')")
-let logo: string = %raw("require('./assets/logo.png')")
+
+module Input = {
+  type t =
+    | Num(int)
+    | Str(string)
+
+  @react.component
+  let make = (~name, ~value: t, ~onChange) => {
+    let (valueStr, inputType) = switch value {
+    | Num(n) => (Js.Int.toString(n), "number")
+    | Str(s) => (s, "text")
+    }
+    <div className="flex justify-between items-center py-2">
+      <label className="text-sm text-gray-800"> {name->React.string} </label>
+      <input
+        type_={inputType}
+        className="h-7 border border-gray-300"
+        value={valueStr}
+        onChange={e => ReactEvent.Form.target(e)["value"]->onChange}
+      />
+    </div>
+  }
+}
+
+module ItemMock = {
+  @react.component
+  let make = (~name) => {
+    <div className="h-full bg-gray-300 border border-gray-400 flex items-center justify-center">
+      <div className="text-xl font-semibold text-gray-400"> {name->React.string} </div>
+    </div>
+  }
+}
 
 module App = {
   @react.component
   let make = () => {
-    <div className="h-screen flex justify-center items-center">
-      <div className="px-6 max-w-sm rounded overflow-hidden shadow-lg p-4">
-        <img className="w-full" src=logo alt="Sunset in the mountains" />
-        <div className="py-4">
-          <div className="font-bold text-xl mb-2"> {"RE-Tailwind"->React.string} </div>
-          <p className="text-gray-700 text-base">
-            {"A reason react starter with tailwind"->React.string}
-          </p>
+    let (rows, setRows) = React.useState(_ => 3)
+    let (columns, setColumns) = React.useState(_ => 2)
+    let (gap, setGap) = React.useState(_ => "0.5rem")
+
+    <div className="h-screen p-10 bg-gray-100 flex flex-col">
+      <div className="text-3xl mb-8"> {"ReScript CSS Grid Dashboard"->React.string} </div>
+      <div className="flex-1 flex w-full">
+        <div className="w-full shadow-md bg-gray-200">
+          <Dashboard rows columns gap>
+            <Dashboard.Item> <ItemMock name="Item 1" /> </Dashboard.Item>
+            <Dashboard.Item> <ItemMock name="Item 2" /> </Dashboard.Item>
+          </Dashboard>
         </div>
-        <div className="py-4">
-          {["Reason React", "Tailwind"]
-          |> Js.Array.map(tag =>
-            <span
-              key=tag
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mt-2">
-              {("#" ++ tag)->React.string}
-            </span>
-          )
-          |> React.array}
+        <div className="ml-8 w-96">
+          <div className="text-lg pb-4 font-medium"> {"Settings"->React.string} </div>
+          <Input name="rows" value={Input.Num(rows)} onChange={setRows} />
+          <Input name="columns" value={Input.Num(columns)} onChange={setColumns} />
+          <Input name="gap" value={Input.Str(gap)} onChange={setGap} />
         </div>
-        <Button startCount={1} />
       </div>
     </div>
   }
 }
+
+// input[type='text']
+// input[type='password']
+// input[type='email']
+// input[type='number']
+// input[type='url']
+// input[type='date']
+// input[type='datetime-local']
+// input[type='month']
+// input[type='week']
+// input[type='time']
+// input[type='search']
+// input[type='tel']
+// input[type='checkbox']
+// input[type='radio']
+// select
+// select[multiple]
+// textarea
 
 ReactDOMRe.renderToElementWithId(<App />, "root")

@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
   purge: {
     content: ["./src/**/*.html", "./src/**/*.re", "./src/**/*.bs.js"],
   },
