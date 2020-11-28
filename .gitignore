@@ -1,6 +1,6 @@
-/build/
-/node_modules/
-/lib/
+build
+node_modules
+lib
 
 .DS_Store
 .bsb.lock
