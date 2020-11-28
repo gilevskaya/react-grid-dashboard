@@ -1,13 +1,21 @@
 module Item = {
   @react.component
-  let make = (~x: option<int>, ~y: option<int>, ~w: int=1, ~h: int=1, ~children) => {
-    let rowStart = switch x {
+  let make = (~x: option<int>, ~y: option<int>, ~w: option<int>, ~h: option<int>, ~children) => {
+    let columnStart = switch x {
     | Some(v) => (v + 1)->Js.Int.toString
     | None => ""
     }
-    let columnStart = switch y {
+    let rowStart = switch y {
     | Some(v) => Js.Int.toString(v + 1)
     | None => ""
+    }
+    let columnEnd = switch w {
+    | Some(v) => v->Js.Int.toString
+    | None => "1"
+    }
+    let rowEnd = switch h {
+    | Some(v) => v->Js.Int.toString
+    | None => "1"
     }
     <div
       style={ReactDOM.Style.make(
@@ -17,8 +25,8 @@ module Item = {
         ~position="relative",
         ~gridRowStart={rowStart},
         ~gridColumnStart={columnStart},
-        ~gridRowEnd=`span ${Js.Int.toString(h)}`,
-        ~gridColumnEnd=`span ${Js.Int.toString(w)}`,
+        ~gridRowEnd=`span ${rowEnd}`,
+        ~gridColumnEnd=`span ${columnEnd}`,
         (),
       )}>
       {children}

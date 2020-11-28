@@ -1,7 +1,12 @@
 %raw("require('./tailwind.css')")
 
 // for types Js.Types
-type tItemProps = {mutable x: option<int>, mutable y: option<int>}
+type tItemProps = {
+  mutable x: option<int>,
+  mutable y: option<int>,
+  mutable w: option<int>,
+  mutable h: option<int>,
+}
 
 module Input = {
   type t =
@@ -15,7 +20,7 @@ module Input = {
     | Str(s) => (s, "text")
     }
     <div className="flex justify-between items-center py-2">
-      <label className="text-sm text-gray-800"> {name->React.string} </label>
+      <label className="text-sm text-gray-800 mr-2"> {name->React.string} </label>
       <input
         type_={inputType}
         className="h-7 border border-gray-300"
@@ -35,10 +40,12 @@ module ItemInput = {
       | None => ""
       }
       <div className="flex flex-col flex-1 border-t border-b border-r border-gray-300 w-1/4">
-        <label> {name->React.string} </label>
+        <label className="bg-gray-200 text-center text-gray-600 text-sm">
+          {name->React.string}
+        </label>
         <input
-        // type_="number"
-          className="w-full"
+          type_="number"
+          className="w-full border-none h-6"
           value={valueStr}
           onChange={e => {
             let v = ReactEvent.Form.target(e)["value"]
@@ -54,13 +61,15 @@ module ItemInput = {
   }
 
   @react.component
-  let make = (~id: int, ~item: tItemProps, ~setItem) => {
-    <div className="my-4 flex">
-      <div className="w-8 border-r border-gray-300"> {id->Js.Int.toString->React.string} </div>
+  let make = (~id: int, ~item, ~setItem) => {
+    <div className="my-4 flex bg-gray-300 border border-gray-400 ">
+      <div className="pl-1 w-8 border-r border-gray-300 text-lg font-semibold text-gray-400">
+        {id->Js.Int.toString->React.string}
+      </div>
       <Value name="x" value={item.x} setValue={v => setItem({...item, x: v})} />
       <Value name="y" value={item.y} setValue={v => setItem({...item, y: v})} />
-      // <Value name="w" value={item.w} />
-      // <Value name="h" value={item.h} />
+      <Value name="w" value={item.w} setValue={v => setItem({...item, w: v})} />
+      <Value name="h" value={item.h} setValue={v => setItem({...item, h: v})} />
     </div>
   }
 }
@@ -82,7 +91,7 @@ module App = {
     let (rows, setRows) = React.useState(_ => 6)
     let (columns, setColumns) = React.useState(_ => 3)
     let (gap, setGap) = React.useState(_ => "0.5rem")
-    let (items, setItems) = React.useState(_ => [{x: None, y: None}])
+    let (items, setItems) = React.useState(_ => [{x: Some(1), y: Some(1), w: None, h: Some(2)}])
 
     <div className="h-screen p-10 bg-gray-100 flex flex-col">
       <div className="text-3xl mb-8"> {"ReScript CSS Grid Dashboard"->React.string} </div>
@@ -90,8 +99,8 @@ module App = {
         <div className="w-full shadow-md bg-gray-200">
           <Dashboard rows columns gap> {items->mapi((item, ind) => {
               let indStr = (ind + 1)->Js.Int.toString
-              let {x, y} = item
-              <Dashboard.Item key={indStr} x y> <ItemMock name={indStr} /> </Dashboard.Item>
+              let {x, y, w, h} = item
+              <Dashboard.Item key={indStr} x y w h> <ItemMock name={indStr} /> </Dashboard.Item>
             })->React.array} </Dashboard>
         </div>
         <div className="ml-8 w-96 flex flex-col justify-between">
@@ -115,38 +124,20 @@ module App = {
                   }}
                 />
               })->React.array} </div>
+            <button
+              className="font-semibold text-gray-400 border border-transparent hover:underline"
+              onClick={_ => setItems(prevItems => {
+                  let _ = prevItems->push({x: None, y: None, w: None, h: None})
+                  prevItems->copy
+                })}>
+              {"+ Add Item"->React.string}
+            </button>
           </div>
           // ...
-          <button
-            className="uppercase font-semibold text-gray-400 hover:text-gray-600"
-            onClick={_ => setItems(prevItems => {
-                let _ = prevItems->push({x: None, y: None})
-                prevItems->copy
-              })}>
-            {"+ add Item"->React.string}
-          </button>
         </div>
       </div>
     </div>
   }
 }
-
-// input[type='text']
-// input[type='password']
-// input[type='email']
-// input[type='number']
-// input[type='url']
-// input[type='date']
-// input[type='datetime-local']
-// input[type='month']
-// input[type='week']
-// input[type='time']
-// input[type='search']
-// input[type='tel']
-// input[type='checkbox']
-// input[type='radio']
-// select
-// select[multiple]
-// textarea
 
 ReactDOMRe.renderToElementWithId(<App />, "root")
