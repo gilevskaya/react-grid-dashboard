@@ -1,5 +1,8 @@
 %raw("require('./tailwind.css')")
 
+// for types Js.Types
+type tItemProps = {mutable x: option<int>, mutable y: option<int>}
+
 module Input = {
   type t =
     | Num(int)
@@ -23,6 +26,45 @@ module Input = {
   }
 }
 
+module ItemInput = {
+  module Value = {
+    @react.component
+    let make = (~name, ~value, ~setValue) => {
+      let valueStr = switch value {
+      | Some(n) => n->Js.Int.toString
+      | None => ""
+      }
+      <div className="flex flex-col flex-1 border-t border-b border-r border-gray-300 w-1/4">
+        <label> {name->React.string} </label>
+        <input
+        // type_="number"
+          className="w-full"
+          value={valueStr}
+          onChange={e => {
+            let v = ReactEvent.Form.target(e)["value"]
+            if v === "" {
+              setValue(None)
+            } else {
+              setValue(Some(v->Js.Float.fromString->Belt.Float.toInt))
+            }
+          }}
+        />
+      </div>
+    }
+  }
+
+  @react.component
+  let make = (~id: int, ~item: tItemProps, ~setItem) => {
+    <div className="my-4 flex">
+      <div className="w-8 border-r border-gray-300"> {id->Js.Int.toString->React.string} </div>
+      <Value name="x" value={item.x} setValue={v => setItem({...item, x: v})} />
+      <Value name="y" value={item.y} setValue={v => setItem({...item, y: v})} />
+      // <Value name="w" value={item.w} />
+      // <Value name="h" value={item.h} />
+    </div>
+  }
+}
+
 module ItemMock = {
   @react.component
   let make = (~name) => {
@@ -35,12 +77,10 @@ module ItemMock = {
 open Js.Array2
 
 module App = {
-  type tItemProps = {mutable x: option<int>, mutable y: option<int>}
-
   @react.component
   let make = () => {
-    let (rows, setRows) = React.useState(_ => 3)
-    let (columns, setColumns) = React.useState(_ => 2)
+    let (rows, setRows) = React.useState(_ => 6)
+    let (columns, setColumns) = React.useState(_ => 3)
     let (gap, setGap) = React.useState(_ => "0.5rem")
     let (items, setItems) = React.useState(_ => [{x: None, y: None}])
 
@@ -56,10 +96,25 @@ module App = {
         </div>
         <div className="ml-8 w-96 flex flex-col justify-between">
           <div>
-            <div className="text-lg pb-4 font-medium"> {"Settings"->React.string} </div>
-            <Input name="rows" value={Input.Num(rows)} onChange={setRows} />
-            <Input name="columns" value={Input.Num(columns)} onChange={setColumns} />
-            <Input name="gap" value={Input.Str(gap)} onChange={setGap} />
+            <div>
+              <div className="text-lg pb-4 font-medium"> {"Settings"->React.string} </div>
+              <Input name="rows" value={Input.Num(rows)} onChange={setRows} />
+              <Input name="columns" value={Input.Num(columns)} onChange={setColumns} />
+              <Input name="gap" value={Input.Str(gap)} onChange={setGap} />
+            </div>
+            <div className="pt-3"> {items->mapi((item, ind) => {
+                <ItemInput
+                  key={(ind + 1)->Js.Int.toString}
+                  id={ind + 1}
+                  item
+                  setItem={i => {
+                    setItems(items => {
+                      let _ = Belt.Array.set(items, ind, i)
+                      items->copy
+                    })
+                  }}
+                />
+              })->React.array} </div>
           </div>
           // ...
           <button

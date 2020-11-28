@@ -2,7 +2,7 @@ module Item = {
   @react.component
   let make = (~x: option<int>, ~y: option<int>, ~w: int=1, ~h: int=1, ~children) => {
     let rowStart = switch x {
-    | Some(v) => Js.Int.toString(v + 1)
+    | Some(v) => (v + 1)->Js.Int.toString
     | None => ""
     }
     let columnStart = switch y {
