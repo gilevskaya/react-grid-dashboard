@@ -6,3 +6,4 @@ lib
 .bsb.lock
 .merlin
 *.bs.js
+*.gen.js

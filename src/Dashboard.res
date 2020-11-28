@@ -1,6 +1,15 @@
+@genType
+module Test = {
+  @react.component
+  export make = () => {
+    <div> {"TEST"->React.string} </div>
+  }
+}
+
+@genType
 module Item = {
   @react.component
-  let make = (~x: option<int>, ~y: option<int>, ~w: option<int>, ~h: option<int>, ~children) => {
+  export make = (~x: option<int>, ~y: option<int>, ~w: option<int>, ~h: option<int>, ~children) => {
     let columnStart = switch x {
     | Some(v) => (v + 1)->Js.Int.toString
     | None => ""
@@ -36,8 +45,8 @@ module Item = {
 
 open Js.Array
 
-@react.component
-let make = (
+@genType @react.component
+export make = (
   ~rows: int=1,
   ~columns: int=1,
   ~gap: string="",

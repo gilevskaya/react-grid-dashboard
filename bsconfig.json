@@ -19,5 +19,15 @@
   ],
   "warnings": {
     "error" : "+101"
+  },
+  "gentypeconfig": {
+    "language": "untyped",
+    "shims": {
+      "ReasonReact": "ReactShim"
+    },
+    "debug": {
+      "all": false,
+      "basic": false
+    }
   }
 }
