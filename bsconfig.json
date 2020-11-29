@@ -21,7 +21,7 @@
     "error" : "+101"
   },
   "gentypeconfig": {
-    "language": "untyped",
+    "language": "typescript",
     "shims": {
       "ReasonReact": "ReactShim"
     },

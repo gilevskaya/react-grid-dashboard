@@ -7,3 +7,4 @@ lib
 .merlin
 *.bs.js
 *.gen.js
+*.gen.tsx

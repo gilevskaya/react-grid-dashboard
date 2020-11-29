@@ -1,4 +1,8 @@
-import Dashboard from "react-grid-dashboard";
+import * as DashboardRe from "react-grid-dashboard";
+
+console.log({ DashboardRe });
+// Dashboard.Item = DashboardRe.Item.make;
+// Dashboard.Test = DashboardRe.Test.make;
 
 const layout = {
   // w=1 h=1 – default and can be ommited
@@ -12,7 +16,9 @@ const layout = {
 export const App = () => {
   return (
     <div style={{ height: "100vh" }}>
-      <Dashboard columns={12} rows={12} gap="10px">
+      123
+      {/* <Test /> */}
+      {/* <Dashboard columns={12} rows={12} gap="10px">
         <Dashboard.Item {...layout.menu}>
           <div
             style={{
@@ -58,7 +64,7 @@ export const App = () => {
             Component C
           </div>
         </Dashboard.Item>
-      </Dashboard>
+      </Dashboard> */}
     </div>
   );
 };

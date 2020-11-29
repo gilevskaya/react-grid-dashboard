@@ -24,8 +24,12 @@ module.exports = {
     port: process.env.PORT || 8000,
     historyApiFallback: true,
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"],
+  },
   module: {
     rules: [
+      { test: /\.tsx?$/, loader: "ts-loader" },
       {
         test: /\.css|otf$/,
         use: [
