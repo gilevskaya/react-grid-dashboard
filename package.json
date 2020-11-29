@@ -1,10 +1,10 @@
 {
   "name": "react-grid-dashboard",
   "version": "0.0.2",
-  "main": "src/Dashboard.res",
-  "module": "src/Dashboard.bs.js",
-  "source": "src/Dashboard.gen.tsx",
-  "types": "src/Dashboard.gen.tsx",
+  "main": "src/Index.res",
+  "module": "src/Index.bs.js",
+  "source": "src/Index.gen.tsx",
+  "types": "src/Index.gen.tsx",
   "scripts": {
     "build": "bsb -make-world",
     "start": "bsb -make-world -w -ws _ ",
@@ -43,7 +43,6 @@
     "postcss-loader": "^4.1.0",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^2.0.0",
-    "ts-loader": "^8.0.11",
     "url-loader": "^4.1.1",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
