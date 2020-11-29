@@ -1,17 +1,18 @@
 {
   "name": "react-grid-dashboard",
   "version": "0.0.19",
-  "main": "src/Index.res",
-  "module": "src/Index.bs.js",
-  "source": "src/Index.gen.tsx",
-  "types": "src/Index.gen.tsx",
+  "main": "src/Grid.res",
+  "module": "src/Grid.bs.js",
+  "source": "src/Grid.gen.tsx",
+  "types": "src/Grid.gen.tsx",
   "scripts": {
     "build": "bsb -make-world",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
     "re:build": "bsb -make-world -clean-world",
-    "re:watch": "bsb -make-world -clean-world -w"
+    "re:watch": "bsb -make-world -clean-world -w",
+    "prepublish": "yarn build"
   },
   "keywords": [
     "rescript",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
-  "name": "react-grid-dashboard-example-ts",
+  "name": "react-grid-dashboard-example-re",
   "version": "0.0.2",
   "reason": {
     "react-jsx": 3
@@ -15,9 +15,10 @@
   },
   "suffix": ".bs.js",
   "bs-dependencies": [
-    "reason-react"
+    "reason-react",
+    "react-grid-dashboard"
   ],
   "warnings": {
     "error" : "+101"
-  },
+  }
 }

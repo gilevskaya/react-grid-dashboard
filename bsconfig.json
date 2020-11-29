@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
-  "name": "rescript-react",
+  "name": "react-grid-dashboard",
   "version": "0.0.2",
   "reason": {
     "react-jsx": 3
