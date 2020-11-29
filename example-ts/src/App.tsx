@@ -12,7 +12,7 @@ const layout = {
 export const App = () => {
   return (
     <div style={{ height: "100vh" }}>
-      <Grid.Dashboard columns={12} rows={12} gap="10px">
+      <Grid.Container columns={12} rows={12} gap="10px">
         <>
           <Grid.Item {...layout.menu}>
             <div
@@ -60,7 +60,7 @@ export const App = () => {
             </div>
           </Grid.Item>
         </>
-      </Grid.Dashboard>
+      </Grid.Container>
     </div>
   );
 };

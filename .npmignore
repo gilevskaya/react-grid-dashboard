@@ -1,0 +1,10 @@
+.vscode
+example-re
+example-ts
+
+node_modules
+lib
+
+.DS_Store
+.bsb.lock
+.merlin
