@@ -1,4 +1,9 @@
 @genType
+export type tFixed =
+  | Row(int, string)
+  | Column(int, string)
+
+@genType
 module Item = {
   @react.component
   export make = (~x: option<int>, ~y: option<int>, ~w: option<int>, ~h: option<int>, ~children) => {
@@ -35,40 +40,41 @@ module Item = {
   }
 }
 
-open Js.Array
+open Js.Array2
 
 @genType @react.component
-export make = (~rows: int=1, ~columns: int=1, ~gap: string="", ~children) => {
-  // ~fixedRows: Js.Dict.t<string>=Js.Dict.fromArray([]),
-  // ~fixedColumns: Js.Dict.t<string>=Js.Dict.fromArray([]),
-
-  let gridRows: string = (
-    () => {
-      let gr = []
-      for i in 0 to rows - 1 {
-        let _ = gr |> push("1fr")
-        // let _ = switch Js.Dict.get(fixedRows, Js.Int.toString(i)) {
-        // | None => gr |> push("1fr")
-        // | Some(size) => gr |> push(size)
-        // }
-      }
-      gr |> joinWith(" ")
+export make = (
+  ~rows: int=1,
+  ~columns: int=1,
+  ~gap: string="",
+  ~fixed: array<tFixed>=[],
+  ~children,
+) => {
+  let (gridRows, gridColumns) = {
+    let gr = []
+    let gc = []
+    for _ in 1 to rows {
+      let _ = gr->push("1fr")
     }
-  )()
-
-  let gridColumns: string = (
-    () => {
-      let gc = []
-      for i in 0 to columns - 1 {
-        let _ = gc |> push("1fr")
-        // let _ = switch Js.Dict.get(fixedColumns, Js.Int.toString(i)) {
-        // | None => gc |> push("1fr")
-        // | Some(size) => gc |> push(size)
-        // }
-      }
-      gc |> joinWith(" ")
+    for _ in 1 to columns {
+      let _ = gc->push("1fr")
     }
-  )()
+
+    for i in 0 to fixed->length - 1 {
+      let fixedItem = fixed[i]
+      switch fixedItem {
+      | Row(i, s) =>
+        if i < rows {
+          gr[i] = s
+        }
+      | Column(i, s) =>
+        if i < columns {
+          gc[i] = s
+        }
+      }
+    }
+    (gr->joinWith(" "), gc->joinWith(" "))
+  }
 
   <div
     style={ReactDOM.Style.make(

@@ -1,24 +1,11 @@
 %raw("require('./tailwind.css')")
 
-// @bs.module("react-grid-dashboard") 
-
 type tItem = {
   mutable x: option<int>,
   mutable y: option<int>,
   mutable w: option<int>,
   mutable h: option<int>,
 }
-type tFixed =
-  | Row(int, string)
-  | Column(int, string)
-// type tFixed = {
-//   mutable row: int,
-//   mutable size: string,
-// } | {
-//     mutable column: int,
-//   mutable size: string,
-// }
-
 open Js.Array2
 
 module AddButton = {
@@ -42,8 +29,8 @@ module DashboardMock = {
   }
 
   @react.component
-  let make = (~rows, ~columns, ~gap, ~items) => {
-    <Grid rows columns gap> {items->mapi((item, ind) => {
+  let make = (~rows, ~columns, ~gap, ~items, ~fixed) => {
+    <Grid rows columns gap fixed> {items->mapi((item, ind) => {
         let indStr = (ind + 1)->Js.Int.toString
         let {x, y, w, h} = item
         <Grid.Item key={indStr} x y w h> <Item name={indStr} /> </Grid.Item>
@@ -91,30 +78,62 @@ module DahsboardMainSettings = {
 module DashboardFixedSettings = {
   module Input = {
     @react.component
-    let make = (~kind, ~num, ~size) => {
+    let make = (~fixedItem, ~setFixedItem) => {
+      let (kind, index, size) = switch fixedItem {
+      | Grid.Row(i, s) => ("row", i->Js.Int.toString, s)
+      | Grid.Column(i, s) => ("column", i->Js.Int.toString, s)
+      }
+      let makeFixed = (kind, index: string, size) => {
+        if kind === "row" {
+          Grid.Row(index->Js.Float.fromString->Belt.Float.toInt, size)
+        } else {
+          Grid.Column(index->Js.Float.fromString->Belt.Float.toInt, size)
+        }
+      }
       <div className="my-3 h-7 border border-gray-300 flex">
-        <select className="border-none pt-0 mr-0.5">
+        <select
+          className="border-none pt-0 mr-0.5"
+          value={kind}
+          onChange={e => {
+            let v = ReactEvent.Form.target(e)["value"]
+            makeFixed(v, index, size)->setFixedItem
+          }}>
           <option value="row"> {"row"->React.string} </option>
           <option value="column"> {"column"->React.string} </option>
         </select>
-        <input className="w-1/3 border-none mr-0.5" type_="number" value={num->Js.Int.toString} />
-        <input className="w-1/3 border-none" type_="text" value={size} />
+        <input
+          className="w-1/3 border-none mr-0.5"
+          type_="number"
+          value={index}
+          onChange={e => {
+            let v = ReactEvent.Form.target(e)["value"]
+            makeFixed(kind, v, size)->setFixedItem
+          }}
+        />
+        <input
+          className="w-1/3 border-none"
+          type_="text"
+          value={size}
+          onChange={e => {
+            let v = ReactEvent.Form.target(e)["value"]
+            makeFixed(kind, index, v)->setFixedItem
+          }}
+        />
       </div>
     }
   }
 
   @react.component
   let make = (~fixed, ~setFixed) => {
-    <div>
-      <AddButton name="add fixed row / column" onClick={_ => "wow"->Js.log} />
-      {fixed->mapi((item, ind) => {
-        let (kind, num, size) = switch item {
-        | Row(n, s) => ("row", n, s)
-        | Column(n, s) => ("column", n, s)
-        }
-        <Input key={ind->Js.Int.toString} kind num size />
-      })->React.array}
-    </div>
+    <div> <AddButton name="add fixed row / column" onClick={_ => setFixed(f => {
+            let _ = f->push(Grid.Row(0, ""))
+            f->copy
+          })} /> {fixed->mapi((fixedItem: Grid.tFixed, ind) => {
+        <Input key={ind->Js.Int.toString} fixedItem setFixedItem={item => setFixed(f => {
+              f[ind] = item
+              f->copy
+            })} />
+      })->React.array} </div>
   }
 }
 
@@ -193,15 +212,15 @@ module App = {
     let (gap, setGap) = React.useState(_ => "0.5rem")
     let (items, setItems) = React.useState(_ => [
       {x: None, y: Some(1), w: None, h: Some(2)},
-      {x: None, y: None, w: None, h: None},
+      {x: None, y: None, w: Some(3), h: None},
     ])
-    let (fixed, setFixed) = React.useState(_ => [Row(0, "150px")])
+    let (fixed, setFixed) = React.useState(_ => [Grid.Row(0, "50px")])
 
     <div className="h-screen p-10 bg-gray-100 flex flex-col">
       <div className="text-3xl mb-8"> {"ReScript CSS Grid Dashboard"->React.string} </div>
       <div className="flex-1 flex w-full">
         <div className="w-full shadow-md bg-gray-200">
-          <DashboardMock rows columns gap items />
+          <DashboardMock rows columns gap items fixed />
         </div>
         <div className="ml-8 w-96 flex flex-col">
           <DahsboardMainSettings rows setRows columns setColumns gap setGap />
