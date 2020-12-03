@@ -33,7 +33,7 @@ module DashboardMock = {
     <Grid rows columns gap fixed> {items->mapi((item, ind) => {
         let indStr = (ind + 1)->Js.Int.toString
         let {x, y, w, h} = item
-        <Grid.Item key={indStr} x y w h> <Item name={indStr} /> </Grid.Item>
+        <Grid.Item key={indStr} ?x ?y ?w ?h> <Item name={indStr} /> </Grid.Item>
       })->React.array} </Grid>
   }
 }
@@ -232,4 +232,4 @@ module App = {
   }
 }
 
-ReactDOMRe.renderToElementWithId(<App />, "root")
+ReactDOMRe.renderToElementWithId(<Basic />, "root")

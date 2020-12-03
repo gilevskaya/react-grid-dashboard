@@ -6,7 +6,13 @@ export type tFixed =
 @genType
 module Item = {
   @react.component
-  export make = (~x: option<int>, ~y: option<int>, ~w: option<int>, ~h: option<int>, ~children) => {
+  export make = (
+    ~x: option<int>=?,
+    ~y: option<int>=?,
+    ~w: option<int>=?,
+    ~h: option<int>=?,
+    ~children,
+  ) => {
     let columnStart = switch x {
     | Some(v) => (v + 1)->Js.Int.toString
     | None => ""

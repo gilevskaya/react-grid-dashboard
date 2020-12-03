@@ -1,6 +1,6 @@
 {
   "name": "react-grid-dashboard",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "main": "src/Grid.res",
   "module": "src/Grid.bs.js",
   "source": "src/Grid.gen.tsx",
