@@ -4,6 +4,7 @@ example-ts
 
 node_modules
 lib
+src/shims
 
 .DS_Store
 .bsb.lock
