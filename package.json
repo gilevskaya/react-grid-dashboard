@@ -1,6 +1,6 @@
 {
   "name": "react-grid-dashboard",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "src/Grid.res",
   "module": "src/Grid.bs.js",
   "source": "src/Grid.gen.tsx",
@@ -12,7 +12,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "re:build": "bsb -make-world -clean-world",
     "re:watch": "bsb -make-world -clean-world -w",
-    "prepublish": "yarn build"
+    "prepublish": "node ./prepublish.js && yarn build",
+    "postpublish": "mv bsconfig.json{.bak,}"
   },
   "keywords": [
     "rescript",

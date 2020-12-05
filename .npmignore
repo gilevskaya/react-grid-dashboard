@@ -4,7 +4,10 @@ example-ts
 
 node_modules
 lib
+
 src/shims
+bsconfig.json.bak
+prepublish.js
 
 .DS_Store
 .bsb.lock
