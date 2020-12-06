@@ -232,4 +232,4 @@ module App = {
   }
 }
 
-ReactDOMRe.renderToElementWithId(<Basic />, "root")
+ReactDOMRe.renderToElementWithId(<App />, "root")
