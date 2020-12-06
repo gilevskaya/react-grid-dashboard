@@ -1,6 +1,6 @@
 {
   "name": "react-grid-dashboard",
-  "version": "0.0.22",
+  "version": "0.0.28",
   "main": "src/Grid.res",
   "module": "src/Grid.bs.js",
   "source": "src/Grid.gen.tsx",
@@ -26,11 +26,11 @@
   "author": "gilevskaya",
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "^17.0.0",
+    "gentype": "^3.40.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "reason-react": "^0.9.1",
-    "@types/react": "^17.0.0",
-    "bs-platform": "^8.3.3",
-    "gentype": "^3.40.0"
+    "bs-platform": "^8.3.3"
   }
 }

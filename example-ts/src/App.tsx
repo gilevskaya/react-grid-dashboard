@@ -12,7 +12,12 @@ const layout = {
 export const App = () => {
   return (
     <div style={{ height: "100vh" }}>
-      <Grid.Container columns={12} rows={12} gap="10px">
+      <Grid.Container
+        columns={12}
+        rows={12}
+        gap="10px"
+        fixed={[{ tag: "Row", value: [0, "50px"] }]}
+      >
         <>
           <Grid.Item {...layout.menu}>
             <div

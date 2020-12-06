@@ -26,9 +26,9 @@ csstype@^3.0.2:
   integrity sha512-uVDi8LpBUKQj6sdxNaTetL6FpeCqTjOvAQuQUa/qAqq8oOd4ivkbhgnqayl0dnPal8Tb/yB1tF+gOvCBiicaiQ==
 
 gentype@^3.40.0:
-  version "3.40.0"
-  resolved "https://registry.yarnpkg.com/gentype/-/gentype-3.40.0.tgz#58aee66931a01414d6387ea243385cd49e504177"
-  integrity sha512-z44Q9ilgpW1g9ECgoKI/yCl65RWMP3IADQyqJnSjpoO+wFkPlpn7yitnqBu+zQ6j0MZRY6YGvKtxYApGbq4Zog==
+  version "3.41.0"
+  resolved "https://registry.yarnpkg.com/gentype/-/gentype-3.41.0.tgz#95f17272cadc7542275cc6e377f4dfcecaa2d443"
+  integrity sha512-fpdB3QOibhpB9wPK+ZGS5d84G6w3fB/BCEvt/G81WOZspC2Prh9QN7doifkBP6o1MYIfOAR98sfyvfKyC1fatQ==
 
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"

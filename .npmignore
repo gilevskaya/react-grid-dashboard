@@ -1,13 +1,13 @@
 .vscode
 example-re
 example-ts
+./prepublish.js
+./bsconfig.json.bak
 
 node_modules
 lib
 
 src/shims
-bsconfig.json.bak
-prepublish.js
 
 .DS_Store
 .bsb.lock
